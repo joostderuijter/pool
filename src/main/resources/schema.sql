@@ -1,0 +1,5 @@
+CREATE TABLE PERSON (
+  id BIGINT PRIMARY KEY,
+  name TEXT,
+  age INT
+);

@@ -9,12 +9,10 @@ class PersonResource(
     private val personRepository: PersonRepository
 ) {
     @GetMapping("/person")
-    fun getPersons(): List<Person> {
-        return personRepository.findAll().map {
-            Person(
-                name = it.name,
-                age = it.age
-            )
-        }
+    fun getPersons(): List<Person> = personRepository.findAll().map {
+        Person(
+            name = it.name,
+            age = it.age
+        )
     }
 }
