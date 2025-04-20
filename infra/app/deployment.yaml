@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: person-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: person-api
+  template:
+    metadata:
+      labels:
+        app: person-api
+    spec:
+      containers:
+        - name: person-api
+          image: person-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          # To check whether load balancing works correctly
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SPRING_PROFILES_ACTIVE
+              value: pgbouncer
+#            - name: SPRING_PROFILES_ACTIVE
+#              value: hikari
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
